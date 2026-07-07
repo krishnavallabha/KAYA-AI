@@ -1,0 +1,202 @@
+{
+  "orders": [
+    {
+      "order_id": "PO-1000",
+      "po_number": "PO-1000",
+      "sku": "SKU-3305",
+      "description": "HVAC Ductwork - 24in Galvanized",
+      "vendor": "Precision Rebar LLC",
+      "vendor_reliability": 0.93,
+      "quantity": 50,
+      "promised_date": "2026-07-23",
+      "fabrication_stage": "not_started",
+      "submittal_approved_date": "2026-06-23"
+    },
+    {
+      "order_id": "PO-1001",
+      "po_number": "PO-1001",
+      "sku": "SKU-2201",
+      "description": "Structural Steel Beams - W12x26",
+      "vendor": "Precision Rebar LLC",
+      "vendor_reliability": 0.93,
+      "quantity": 100,
+      "promised_date": "2026-07-27",
+      "fabrication_stage": "not_started",
+      "submittal_approved_date": "2026-06-24"
+    },
+    {
+      "order_id": "PO-1002",
+      "po_number": "PO-1002",
+      "sku": "SKU-5027",
+      "description": "Curtain Wall Glazing Panels",
+      "vendor": "Coastal Glazing Systems",
+      "vendor_reliability": 0.6,
+      "quantity": 100,
+      "promised_date": "2026-07-13",
+      "fabrication_stage": "not_started",
+      "submittal_approved_date": "2026-06-13"
+    },
+    {
+      "order_id": "PO-1003",
+      "po_number": "PO-1003",
+      "sku": "SKU-2201",
+      "description": "Structural Steel Beams - W12x26",
+      "vendor": "SteelWorks Fabrication",
+      "vendor_reliability": 0.88,
+      "quantity": 50,
+      "promised_date": "2026-07-18",
+      "fabrication_stage": "shipped",
+      "submittal_approved_date": "2026-06-25"
+    },
+    {
+      "order_id": "PO-1004",
+      "po_number": "PO-1004",
+      "sku": "SKU-2201",
+      "description": "Structural Steel Beams - W12x26",
+      "vendor": "MetroDuct Supply Co.",
+      "vendor_reliability": 0.71,
+      "quantity": 100,
+      "promised_date": "2026-07-28",
+      "fabrication_stage": "fabrication_complete",
+      "submittal_approved_date": "2026-06-13"
+    },
+    {
+      "order_id": "PO-1005",
+      "po_number": "PO-1005",
+      "sku": "SKU-2201",
+      "description": "Structural Steel Beams - W12x26",
+      "vendor": "MetroDuct Supply Co.",
+      "vendor_reliability": 0.71,
+      "quantity": 150,
+      "promised_date": "2026-07-29",
+      "fabrication_stage": "in_fabrication",
+      "submittal_approved_date": "2026-06-23"
+    }
+  ],
+  "emails": [
+    {
+      "email_id": "EML-000",
+      "received_at": "2026-07-06T21:00:00",
+      "sender": "logistics@precision.com",
+      "body": "Subject: Shipment Confirmed - PO-1000\n\nThis confirms PO-1000 (HVAC Ductwork - 24in Galvanized) has left our facility today via freight carrier. Tracking shows arrival at your site around 2026-07-26. Quantity shipped: 50 units.\n\nThanks,\nPrecision Rebar LLC",
+      "kind_ground_truth": "shipment_confirmation",
+      "order_id_ground_truth": "PO-1000"
+    },
+    {
+      "email_id": "EML-001",
+      "received_at": "2026-07-07T02:00:00",
+      "sender": "logistics@precision.com",
+      "body": "Subject: Delay Notice - PO-1001\n\nHi team,\n\nUnfortunately our shop is running behind on Structural Steel Beams - W12x26 (PO-1001). Fabrication won't complete until 2026-08-06, roughly 10 days later than the original commitment. We'll expedite freight once it ships.\n\nRegards,\nPrecision Rebar LLC Logistics",
+      "kind_ground_truth": "delay_notice",
+      "order_id_ground_truth": "PO-1001"
+    },
+    {
+      "email_id": "EML-002",
+      "received_at": "2026-07-04T13:00:00",
+      "sender": "logistics@coastal.com",
+      "body": "Subject: Shipment Confirmed - PO-1002\n\nThis confirms PO-1002 (Curtain Wall Glazing Panels) has left our facility today via freight carrier. Tracking shows arrival at your site around 2026-07-19. Quantity shipped: 100 units.\n\nThanks,\nCoastal Glazing Systems",
+      "kind_ground_truth": "shipment_confirmation",
+      "order_id_ground_truth": "PO-1002"
+    },
+    {
+      "email_id": "EML-003",
+      "received_at": "2026-07-04T22:00:00",
+      "sender": "logistics@steelworks.com",
+      "body": "Subject: Partial Damage Reported - PO-1003\n\nSite inspection flagged minor surface damage on 50 units of PO-1003 (Structural Steel Beams - W12x26) upon arrival. Replacement units for the damaged portion are being expedited, new ETA 2026-07-21.\n\nSteelWorks Fabrication QA",
+      "kind_ground_truth": "condition_issue",
+      "order_id_ground_truth": "PO-1003"
+    },
+    {
+      "email_id": "EML-004",
+      "received_at": "2026-07-05T19:00:00",
+      "sender": "logistics@metroduct.com",
+      "body": "Subject: Partial Damage Reported - PO-1004\n\nSite inspection flagged minor surface damage on 100 units of PO-1004 (Structural Steel Beams - W12x26) upon arrival. Replacement units for the damaged portion are being expedited, new ETA 2026-07-31.\n\nMetroDuct Supply Co. QA",
+      "kind_ground_truth": "condition_issue",
+      "order_id_ground_truth": "PO-1004"
+    },
+    {
+      "email_id": "EML-005",
+      "received_at": "2026-07-06T02:00:00",
+      "sender": "logistics@metroduct.com",
+      "body": "Subject: Shipment Confirmed - PO-1005\n\nThis confirms PO-1005 (Structural Steel Beams - W12x26) has left our facility today via freight carrier. Tracking shows arrival at your site around 2026-07-29. Quantity shipped: 150 units.\n\nThanks,\nMetroDuct Supply Co.",
+      "kind_ground_truth": "shipment_confirmation",
+      "order_id_ground_truth": "PO-1005"
+    }
+  ],
+  "documents": [
+    {
+      "doc_id": "DOC-000",
+      "doc_type_ground_truth": "bill_of_lading",
+      "order_id_ground_truth": "PO-1000",
+      "raw_text": "BILL OF LADING\nBOL Number: BOL-2000\nPO Reference: PO-1000\nShipper: Precision Rebar LLC\nConsignee: Riverside Tower Project Site\nDescription of Goods: HVAC Ductwork - 24in Galvanized\nQuantity: 50 units\nDate Shipped: 2026-07-16\nCarrier: Freightline Logistics\nFreight Terms: Prepaid"
+    },
+    {
+      "doc_id": "DOC-001",
+      "doc_type_ground_truth": "submittal_log",
+      "order_id_ground_truth": "PO-1001",
+      "raw_text": "SUBMITTAL LOG ENTRY\nSubmittal ID: SUB-2001\nRelated PO: PO-1001\nMaterial: Structural Steel Beams - W12x26\nApproval Status: APPROVED\nApproval Date: 2026-06-24\nNotes: Approved for fabrication release."
+    },
+    {
+      "doc_id": "DOC-002",
+      "doc_type_ground_truth": "packing_slip",
+      "order_id_ground_truth": "PO-1002",
+      "raw_text": "PACKING SLIP\nOrder Reference: PO-1002\nVendor: Coastal Glazing Systems\nItem: Curtain Wall Glazing Panels\nUnits Packed: 100\nInspection Status: PASSED\nPacked Date: 2026-07-03"
+    },
+    {
+      "doc_id": "DOC-003",
+      "doc_type_ground_truth": "packing_slip",
+      "order_id_ground_truth": "PO-1003",
+      "raw_text": "PACKING SLIP\nOrder Reference: PO-1003\nVendor: SteelWorks Fabrication\nItem: Structural Steel Beams - W12x26\nUnits Packed: 50\nInspection Status: PASSED\nPacked Date: 2026-07-14"
+    },
+    {
+      "doc_id": "DOC-004",
+      "doc_type_ground_truth": "bill_of_lading",
+      "order_id_ground_truth": "PO-1004",
+      "raw_text": "BILL OF LADING\nBOL Number: BOL-2004\nPO Reference: PO-1004\nShipper: MetroDuct Supply Co.\nConsignee: Riverside Tower Project Site\nDescription of Goods: Structural Steel Beams - W12x26\nQuantity: 100 units\nDate Shipped: 2026-07-19\nCarrier: Freightline Logistics\nFreight Terms: Prepaid"
+    },
+    {
+      "doc_id": "DOC-005",
+      "doc_type_ground_truth": "bill_of_lading",
+      "order_id_ground_truth": "PO-1005",
+      "raw_text": "BILL OF LADING\nBOL Number: BOL-2005\nPO Reference: PO-1005\nShipper: MetroDuct Supply Co.\nConsignee: Riverside Tower Project Site\nDescription of Goods: Structural Steel Beams - W12x26\nQuantity: 150 units\nDate Shipped: 2026-07-21\nCarrier: Freightline Logistics\nFreight Terms: Prepaid"
+    }
+  ],
+  "images": [
+    {
+      "image_id": "IMG-000",
+      "path": "/home/claude/flowsense_role2/data/images/label_000.png",
+      "order_id_ground_truth": "PO-1000",
+      "condition_ground_truth": "GOOD CONDITION"
+    },
+    {
+      "image_id": "IMG-001",
+      "path": "/home/claude/flowsense_role2/data/images/label_001.png",
+      "order_id_ground_truth": "PO-1001",
+      "condition_ground_truth": "MINOR DAMAGE"
+    },
+    {
+      "image_id": "IMG-002",
+      "path": "/home/claude/flowsense_role2/data/images/label_002.png",
+      "order_id_ground_truth": "PO-1002",
+      "condition_ground_truth": "MINOR DAMAGE"
+    },
+    {
+      "image_id": "IMG-003",
+      "path": "/home/claude/flowsense_role2/data/images/label_003.png",
+      "order_id_ground_truth": "PO-1003",
+      "condition_ground_truth": "GOOD CONDITION"
+    },
+    {
+      "image_id": "IMG-004",
+      "path": "/home/claude/flowsense_role2/data/images/label_004.png",
+      "order_id_ground_truth": "PO-1004",
+      "condition_ground_truth": "GOOD CONDITION"
+    },
+    {
+      "image_id": "IMG-005",
+      "path": "/home/claude/flowsense_role2/data/images/label_005.png",
+      "order_id_ground_truth": "PO-1005",
+      "condition_ground_truth": "GOOD CONDITION"
+    }
+  ]
+}

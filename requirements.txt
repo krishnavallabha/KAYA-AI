@@ -1,0 +1,11 @@
+openai>=1.30.0
+faiss-cpu>=1.8.0
+pytesseract>=0.3.10
+pillow>=10.0.0
+numpy>=1.26.0
+scipy>=1.11.0
+
+# System dependency (not pip-installable): tesseract-ocr
+#   Debian/Ubuntu: sudo apt-get install tesseract-ocr
+#   macOS:         brew install tesseract
+# Required only for the Vision Agent's fallback OCR path.
