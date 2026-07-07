@@ -38,11 +38,24 @@ uvicorn backend.main:app --reload
 * **API Docs (Swagger UI)**: Open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) in your browser to interactively test endpoints (`/ingest/email`, `/ingest/vision`, `/ingest/schedule`).
 
 ### 4. Run the Test Suite
-Verify that everything is operating correctly:
+You can execute all backend unit and integration tests using either the direct `pytest` command or the provided test runner script:
 
-```bash
-PYTHONPATH=. ./venv/bin/pytest backend/tests/
-```
+* **Using the Test Runner Script**:
+  ```bash
+  ./run_tests.sh
+  ```
+  *(You can also pass standard pytest flags, e.g. `./run_tests.sh -v` for verbose output.)*
+
+* **Using the direct Pytest command**:
+  ```bash
+  PYTHONPATH=. ./venv/bin/pytest backend/tests/
+  ```
+
+The test suite runs our end-to-end integration test (`test_ml_integration`), verifying:
+* Signal database insertion.
+* Reconciled status voting consensus.
+* Sequential Bayesian delay and ETA predictions.
+* Signal conflict alerting and resolution triggers.
 
 ---
 
