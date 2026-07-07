@@ -1,0 +1,92 @@
+[
+  {
+    "order_id": "PO-1000",
+    "description": "HVAC Ductwork - 24in Galvanized",
+    "vendor": "Precision Rebar LLC",
+    "verified_status": "shipped",
+    "tracker_confidence": 0.436,
+    "signal_conflict": true,
+    "forecast_date": "2026-07-24",
+    "confidence_interval_90": [
+      "2026-07-19",
+      "2026-07-28"
+    ],
+    "delay_probability": 0.595,
+    "days_at_risk": 0.7
+  },
+  {
+    "order_id": "PO-1001",
+    "description": "Structural Steel Beams - W12x26",
+    "vendor": "Precision Rebar LLC",
+    "verified_status": "fabrication_complete",
+    "tracker_confidence": 0.619,
+    "signal_conflict": true,
+    "forecast_date": "2026-07-20",
+    "confidence_interval_90": [
+      "2026-07-15",
+      "2026-07-24"
+    ],
+    "delay_probability": 0.003,
+    "days_at_risk": 0.0
+  },
+  {
+    "order_id": "PO-1002",
+    "description": "Curtain Wall Glazing Panels",
+    "vendor": "Coastal Glazing Systems",
+    "verified_status": "shipped",
+    "tracker_confidence": 0.52,
+    "signal_conflict": true,
+    "forecast_date": "2026-07-15",
+    "confidence_interval_90": [
+      "2026-07-10",
+      "2026-07-19"
+    ],
+    "delay_probability": 0.761,
+    "days_at_risk": 1.9
+  },
+  {
+    "order_id": "PO-1003",
+    "description": "Structural Steel Beams - W12x26",
+    "vendor": "SteelWorks Fabrication",
+    "verified_status": "shipped",
+    "tracker_confidence": 0.512,
+    "signal_conflict": true,
+    "forecast_date": "2026-07-14",
+    "confidence_interval_90": [
+      "2026-07-11",
+      "2026-07-16"
+    ],
+    "delay_probability": 0.001,
+    "days_at_risk": 0.0
+  },
+  {
+    "order_id": "PO-1004",
+    "description": "Structural Steel Beams - W12x26",
+    "vendor": "MetroDuct Supply Co.",
+    "verified_status": "shipped",
+    "tracker_confidence": 0.488,
+    "signal_conflict": true,
+    "forecast_date": "2026-07-25",
+    "confidence_interval_90": [
+      "2026-07-22",
+      "2026-07-29"
+    ],
+    "delay_probability": 0.113,
+    "days_at_risk": 0.0
+  },
+  {
+    "order_id": "PO-1005",
+    "description": "Structural Steel Beams - W12x26",
+    "vendor": "MetroDuct Supply Co.",
+    "verified_status": "shipped",
+    "tracker_confidence": 0.476,
+    "signal_conflict": true,
+    "forecast_date": "2026-07-28",
+    "confidence_interval_90": [
+      "2026-07-23",
+      "2026-08-02"
+    ],
+    "delay_probability": 0.404,
+    "days_at_risk": 0.0
+  }
+]
