@@ -67,7 +67,7 @@ class Material(Base):
     activity_id = Column(Integer,ForeignKey("activities.id"),nullable=True)
     sku = Column(String,index=True)
     description = Column(String,nullable=True)
-    quantity = Colum(Float,default=1.0)
+    quantity = Column(Float,default=1.0)
     status = Column(String,default="ORDERED") # ORDERED, FABRICATING, SHIPPED, IN_TRANSIT, DELIVERED 
     current_location = Column(String,nullable=True)
     vendor_name = Column(String,nullable=True)
