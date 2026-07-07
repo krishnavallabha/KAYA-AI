@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     API_V1_STR:str = "/api/v1"
     DATABASE_URL:str = os.getenv("DATABASE_URL","sqlite:///./flowsense.db")
     OPENAI_API_KEY:str = os.getenv("OPENAI_API_KEY","")
-    GEMINI_API_KEY:str = os.getenv("GEMINI_API_KEY","")
+    #GEMINI_API_KEY:str = os.getenv("GEMINI_API_KEY","")
 
     class Config:
         case_sensitive = True 
