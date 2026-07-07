@@ -19,14 +19,15 @@ pip install -r requirements.txt
 ```
 
 ### 2. Configure Environment Variables
-Copy the example environment file and add your OpenAI API key:
+Copy the example environment file and add your API key:
 
 ```bash
 cp .env.example .env
 ```
 
-* **Live Mode**: Set your `OPENAI_API_KEY` inside `.env`.
-* **Fallback Mode (Hackathon Wi-Fi Proof)**: Leave `OPENAI_API_KEY` blank or unset. Every agent will automatically drop back to local regex/rule extraction, meaning you can demo the entire app offline!
+* **Live Mode (OpenAI)**: Set your `OPENAI_API_KEY` inside `.env`.
+* **Live Mode (Groq - Free Tier/Cheap)**: If you don't have OpenAI credits, set your `GROQ_API_KEY` inside `.env` instead. The pipeline will automatically route completions to Groq's open-source Llama models (`llama-3.1-70b-versatile` / `llama-3.2-11b-vision-preview`) using the same OpenAI client wrapper.
+* **Fallback Mode (Hackathon Offline)**: Leave both keys blank. Every agent will automatically drop back to local regex/rule extraction, meaning you can demo the entire app offline!
 
 ### 3. Start the API Server
 Start the development FastAPI backend:
@@ -44,7 +45,7 @@ You can execute all backend unit and integration tests using either the direct `
   ```bash
   ./run_tests.sh
   ```
-  *(You can also pass standard pytest flags, e.g. `./run_tests.sh -v` for verbose output.)*
+  *(You can pass standard pytest flags, e.g. `./run_tests.sh -v` for verbose output, or `./run_tests.sh -s` to view the JSON request payloads and server outputs live during execution.)*
 
 * **Using the direct Pytest command**:
   ```bash
