@@ -1,14 +1,4 @@
-# FlowSense — Role 2: AI & Predictive Modeling
-
-Working code for the three things Role 2 owns:
-
-1. **Ingest Layer extraction agents** — Email Agent, Vision Agent, Document Parser
-2. **Material Tracker Agent** — multi-source reconciliation with confidence scoring
-3. **Fabrication-to-Delivery Forecaster** — Bayesian ETA + delay-probability engine
-
-Everything runs standalone against generated synthetic data (no API key needed),
-and upgrades to real GPT-4o / GPT-4o Vision calls the instant `OPENAI_API_KEY`
-is set in the environment — no code changes required.
+# FlowSense 
 
 ## Quick start
 
@@ -91,12 +81,3 @@ for the exact shape produced.
 - **Synthetic data determinism**: `synthetic_data.py` seeds `random.seed(7)`
   so demo runs are reproducible; delete the seed line for varied fixtures.
 
-## Handoff to Role 1 (backend/graph) and Role 3 (frontend/streaming)
-
-- Role 3's Kafka/Redis producer should call the same agents and push
-  `Event.to_dict()` payloads — the `EventStream` class here has the same
-  `publish()`/`all()` shape as a real producer/consumer would, so swapping
-  the transport is a drop-in change.
-- Role 1's Cascade Impact Engine should consume `dashboard_payload.json`'s
-  shape (`forecast_date`, `delay_probability`, `days_at_risk` per order_id) to
-  decide which schedule nodes are now at risk.
