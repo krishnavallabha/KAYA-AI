@@ -1,13 +1,64 @@
 # FlowSense AI — Intelligent Construction Supply Chain
 
-FlowSense integrates LLM agents, status consensus tracking, and sequential Bayesian forecasting to automate material-tracking and delay mitigation in project management.
+FlowSense integrates LLM agents, status consensus tracking, and sequential Bayesian forecasting to automate material-tracking and delay mitigation in project management. 
+
+This repository contains both the **Backend (Intelligence Layer)** and the **Frontend (Action Layer)** of the FlowSense platform.
 
 ---
 
-## Quick Start (How to Run)
+## Architecture & System Overview
+- **Backend (Intelligence Layer)**: Built with FastAPI, SQLite (via SQLAlchemy), and OpenAI/Groq APIs. It orchestrates document parsers, vision-based status verification, a cascading schedule impact engine, and a Bayesian delay risk forecaster.
+- **Frontend (Action Layer)**: A React-based project manager command center dashboard styled with Tailwind CSS and utilizing React Flow + dagre for CPM schedule visualization, alongside Recharts for analytics.
 
-### 1. Installation & Environment Setup
-Clone the repository and set up a Python virtual environment:
+---
+
+## Frontend (Action Layer)
+
+The frontend consumes the FlowSense FastAPI backend to surface order tracking, delay forecasting, critical path schedule impact, alerts, and one-click AI-drafted vendor actions.
+
+### Features
+- **Command Center dashboard** — KPIs, order-status mix (donut), delay-risk ranking, at-risk orders, and live alerts.
+- **Material Orders** — searchable/filterable table with forecast ETA, delay probability, confidence score, lifecycle stepper, and a create-order form.
+- **Schedule Graph** — interactive activity network (React Flow + dagre auto-layout) with the critical path highlighted and per-activity material drill-down.
+- **Alerts** — severity-filtered feed with one-click resolve.
+- **Action Drafts** — review AI-generated vendor escalation emails and execute (simulated send) in one click.
+- **Ingest** — feed vendor emails, delivery photos, and Primavera XML schedules into the pipeline.
+- **Dark / light theme** — toggle in the top bar; preference is remembered.
+- **Demo-safe** — if the backend is unreachable, the UI transparently falls back to bundled demo data so it always renders.
+
+### Tech Stack
+React 18 · Vite 5 · Tailwind CSS 3 · React Router 6 · Recharts · React Flow + dagre · lucide-react.
+
+### Getting Started (Frontend)
+Prerequisites: Node.js 18+ and npm.
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Configure the backend URL (optional — defaults to http://localhost:8000)
+cp .env.example .env
+# then edit VITE_API_BASE_URL if your API runs elsewhere
+
+# 3. Start the dev server
+npm run dev          # serves on http://localhost:5173
+
+# Production build + local preview
+npm run build
+npm run preview
+```
+
+---
+
+## Backend (Intelligence Layer)
+
+The backend provides the database schema, cognitive agents (email parser, photo verifier), Bayesian delay logic, and API endpoints.
+
+### Getting Started (Backend)
+Prerequisites: Python 3.10+.
+
+#### 1. Installation & Environment Setup
+Set up a Python virtual environment and install dependencies:
 
 ```bash
 # Set up venv
@@ -18,61 +69,45 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Configure Environment Variables
-Copy the example environment file and add your API key:
-
+#### 2. Configure Environment Variables
+Copy `.env.example` to `.env` and fill out your keys:
 ```bash
 cp .env.example .env
 ```
-
 * **Live Mode (OpenAI)**: Set your `OPENAI_API_KEY` inside `.env`.
-* **Live Mode (Groq - Free Tier/Cheap)**: If you don't have OpenAI credits, set your `GROQ_API_KEY` inside `.env` instead. The pipeline will automatically route completions to Groq's open-source Llama models (`llama-3.1-70b-versatile` / `llama-3.2-11b-vision-preview`) using the same OpenAI client wrapper.
-* **Fallback Mode (Hackathon Offline)**: Leave both keys blank. Every agent will automatically drop back to local regex/rule extraction, meaning you can demo the entire app offline!
+* **Live Mode (Groq)**: Set your `GROQ_API_KEY` instead to route completions to Groq's open-source Llama models.
+* **Fallback Mode (Hackathon Offline)**: Leave keys blank to default to rule-based regex extraction.
 
-### 3. Start the API Server
+#### 3. Start the API Server
 Start the development FastAPI backend:
 
 ```bash
 uvicorn backend.main:app --reload
 ```
+* **API Docs (Swagger UI)**: Open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) in your browser.
 
-* **API Docs (Swagger UI)**: Open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) in your browser to interactively test endpoints (`/ingest/email`, `/ingest/vision`, `/ingest/schedule`).
+#### 4. Run the Test Suite
+```bash
+# Using the test runner script
+./run_tests.sh
 
-### 4. Run the Test Suite
-You can execute all backend unit and integration tests using either the direct `pytest` command or the provided test runner script:
-
-* **Using the Test Runner Script**:
-  ```bash
-  ./run_tests.sh
-  ```
-  *(You can pass standard pytest flags, e.g. `./run_tests.sh -v` for verbose output, or `./run_tests.sh -s` to view the JSON request payloads and server outputs live during execution.)*
-
-* **Using the direct Pytest command**:
-  ```bash
-  PYTHONPATH=. ./venv/bin/pytest backend/tests/
-  ```
-
-The test suite runs our end-to-end integration test (`test_ml_integration`), verifying:
-* Signal database insertion.
-* Reconciled status voting consensus.
-* Sequential Bayesian delay and ETA predictions.
-* Signal conflict alerting and resolution triggers.
+# Using the direct Pytest command
+PYTHONPATH=. ./venv/bin/pytest backend/tests/
+```
 
 ---
 
 ## Hackathon Pitch & Demo Commands
 
 ### Recreating/Resetting the Database
-To clear all existing materials, status records, alerts, and actions before presenting or recording a clean demo walkthrough:
-
+To clear all existing data before presenting a clean demo walkthrough:
 ```bash
 rm flowsense.db
 ```
-*(The server will automatically recreate a fresh, clean database schema upon the next API request.)*
+*(The server will automatically recreate a fresh database schema upon the next API request.)*
 
-### snappy Response Times (pitch tuning)
-To keep the presentation fast and avoid waiting 5+ seconds for response streams, toggle the model in `config.py` to `gpt-4o-mini`:
-
+### Snappy Response Times (Model Tuning)
+To speed up LLM response times for demo purposes, set the model in `config.py` to `gpt-4o-mini`:
 ```python
 EMAIL_MODEL = "gpt-4o-mini"
 VISION_MODEL = "gpt-4o-mini"
