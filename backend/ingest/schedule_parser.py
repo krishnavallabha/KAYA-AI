@@ -2,7 +2,7 @@
 
 
 import xml.etree.ElementTree as ET
-from datetime import datetime,timezone
+from datetime import datetime,timezone,timedelta
 from typing import List,Dict,Tuple
 
 
@@ -54,31 +54,31 @@ def create_demo_schedule() -> Tuple[List[Dict], List[Dict]]:
             "id": 1,
             "name": "Activity A - Foundation Pour",
             "scheduled_start": now,
-            "scheduled_end": datetime(now.year, now.month, now.day + 5),
+            "scheduled_end": now + timedelta(days=5),
             "is_critical_path": True,
             "status": "COMPLETED"
         },
         {
             "id": 2,
             "name": "Activity B - Structural Steel Erection",
-            "scheduled_start": datetime(now.year, now.month, now.day + 6),
-            "scheduled_end": datetime(now.year, now.month, now.day + 15),
+            "scheduled_start": now + timedelta(days=6),
+            "scheduled_end": now + timedelta(days=15),
             "is_critical_path": True,
             "status": "NOT_STARTED"
         },
         {
             "id": 3,
             "name": "Activity C - Decking Installation",
-            "scheduled_start": datetime(now.year, now.month, now.day + 16),
-            "scheduled_end": datetime(now.year, now.month, now.day + 20),
+            "scheduled_start": now + timedelta(days=16),
+            "scheduled_end": now + timedelta(days=20),
             "is_critical_path": True,
             "status": "NOT_STARTED"
         },
         {
             "id": 4,
             "name": "Activity D - Concrete Slab Pour",
-            "scheduled_start": datetime(now.year, now.month, now.day + 21),
-            "scheduled_end": datetime(now.year, now.month, now.day + 24),
+            "scheduled_start": now + timedelta(days=21),
+            "scheduled_end": now + timedelta(days=24),
             "is_critical_path": True,
             "status": "NOT_STARTED"
         }
