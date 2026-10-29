@@ -1,18 +1,21 @@
-# manage app settings, db url, api keys... we use pydantic_settings to auto read config from env var 
-
-
-import os 
-from pydantic_settings import BaseSettings 
+from pathlib import Path
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME:str = "FlowSense Backend"
-    API_V1_STR:str = "/api/v1"
-    DATABASE_URL:str = os.getenv("DATABASE_URL","sqlite:///./flowsense.db")
-    OPENAI_API_KEY:str = os.getenv("OPENAI_API_KEY","")
-    #GEMINI_API_KEY:str = os.getenv("GEMINI_API_KEY","")
+    model_config = SettingsConfigDict(
+        env_file=str(Path(__file__).resolve().parent.parent / ".env"),
+        env_file_encoding="utf-8",
+        case_sensitive=True,
+        extra="ignore",
+    )
 
-    class Config:
-        case_sensitive = True 
+    PROJECT_NAME: str = "FlowSense Backend"
+    API_V1_STR: str = "/api/v1"
+    DATABASE_URL: str = "sqlite:///./flowsense.db"
+
+    GROQ_API_KEY: str = ""
+    OPENAI_API_KEY: str = ""  # Temporary compatibility; remove after migration.
+
 
 settings = Settings()

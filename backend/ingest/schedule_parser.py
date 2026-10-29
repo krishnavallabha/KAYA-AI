@@ -6,45 +6,107 @@ from datetime import datetime,timezone,timedelta
 from typing import List,Dict,Tuple
 
 
+
 def parse_primavera_xml(xml_content: str) -> Tuple[List[Dict], List[Dict]]:
     activities = []
     relationships = []
+
     try:
         root = ET.fromstring(xml_content)
+
+        def get_text(node, *tag_names):
+            for tag in tag_names:
+                element = node.find(tag)
+                if element is not None and element.text:
+                    return element.text.strip()
+            return None
+
         for act_node in root.findall(".//Activity"):
-            act_id = act_node.find("Id")
-            act_name = act_node.find("Name")
-            start_date_str = act_node.find("StartDate")
-            end_date_str = act_node.find("EndDate")
-            critical_node = act_node.find("IsCritical")
-            if act_id is not None and act_id.text is not None and act_name is not None and act_name.text is not None:
-                try:
-                    start_date = datetime.fromisoformat(start_date_str.text) if start_date_str is not None and start_date_str.text else datetime.now(timezone.utc)
-                    end_date = datetime.fromisoformat(end_date_str.text) if end_date_str is not None and end_date_str.text else datetime.now(timezone.utc)
-                except ValueError:
-                    start_date = datetime.now(timezone.utc)
-                    end_date = datetime.now(timezone.utc)
-                activities.append({
-                    "id": int(act_id.text),
-                    "name": act_name.text,
-                    "scheduled_start": start_date,
-                    "scheduled_end": end_date,
-                    "is_critical_path": critical_node.text.lower() == "true" if (critical_node is not None and critical_node.text is not None) else False,
-                    "status": "NOT_STARTED"
-                })                
+            act_id = get_text(act_node, "Id", "ActivityId", "ObjectId")
+            act_name = get_text(act_node, "Name", "ActivityName")
+
+            if not act_id or not act_name:
+                continue
+
+            try:
+                activity_id = int(act_id)
+            except ValueError:
+                continue
+
+            now = datetime.now(timezone.utc)
+
+            try:
+                start_date = datetime.fromisoformat(
+                    # pyrefly: ignore[bad-argument-type]
+                    get_text(act_node, "StartDate", "PlannedStartDate")
+                ) if get_text(act_node, "StartDate", "PlannedStartDate") else now
+            except ValueError:
+                start_date = now
+
+            try:
+                end_date = datetime.fromisoformat(
+                    # pyrefly: ignore[bad-argument-type]
+                    get_text(act_node, "EndDate", "PlannedFinishDate")
+                ) if get_text(act_node, "EndDate", "PlannedFinishDate") else now
+            except ValueError:
+                end_date = now
+
+            critical = get_text(
+                act_node, "IsCritical", "IsCriticalPath", "Critical"
+            )
+
+            activities.append({
+                "id": activity_id,
+                "name": act_name,
+                "scheduled_start": start_date,
+                "scheduled_end": end_date,
+                "is_critical_path": (critical or "").lower() in {
+                    "true", "1", "yes"
+                },
+                "status": "NOT_STARTED",
+            })
+
         for rel_node in root.findall(".//ActivityRelation"):
-            pred_id = rel_node.find("PredecessorActivityId")
-            succ_id = rel_node.find("SuccessorActivityId")
-            rel_type = rel_node.find("RelationType") # default FS (Finish-to-Start)
-            if pred_id is not None and pred_id.text is not None and succ_id is not None and succ_id.text is not None:
-                relationships.append({
-                    "predecessor_id": int(pred_id.text),
-                    "successor_id": int(succ_id.text),
-                    "relation_type": rel_type.text if (rel_type is not None and rel_type.text is not None) else "FS"
-                })
-    except Exception as e:
-        activities, relationships = create_demo_schedule()
-    return activities, relationships
+            pred_id = get_text(
+                rel_node, "PredecessorActivityId", "PredecessorId"
+            )
+            succ_id = get_text(
+                rel_node, "SuccessorActivityId", "SuccessorId"
+            )
+            rel_type = get_text(
+                rel_node, "RelationType", "Type"
+            ) or "FS"
+
+            if not pred_id or not succ_id:
+                continue
+
+            try:
+                predecessor_id = int(pred_id)
+                successor_id = int(succ_id)
+            except ValueError:
+                continue
+
+            relationships.append({
+                "predecessor_id": predecessor_id,
+                "successor_id": successor_id,
+                "relation_type": rel_type,
+            })
+
+        # Do not silently substitute demo data for a valid but empty schedule.
+        if not activities:
+            raise ValueError("No valid activities found in XML.")
+
+        activity_ids = {a["id"] for a in activities}
+        relationships = [
+            r for r in relationships
+            if r["predecessor_id"] in activity_ids
+            and r["successor_id"] in activity_ids
+        ]
+
+        return activities, relationships
+
+    except ET.ParseError as exc:
+        raise ValueError(f"Invalid schedule XML: {exc}") from exc
 
 
 def create_demo_schedule() -> Tuple[List[Dict], List[Dict]]:

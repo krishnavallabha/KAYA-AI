@@ -8,6 +8,7 @@ import {
   Upload,
   X,
   Activity,
+  MessageSquareText,
 } from 'lucide-react'
 
 const NAV = [
@@ -17,6 +18,7 @@ const NAV = [
   { to: '/alerts', label: 'Alerts', icon: Bell },
   { to: '/actions', label: 'Action Drafts', icon: Send },
   { to: '/ingest', label: 'Ingest Data', icon: Upload },
+  { to: '/rag', label: 'RAG Assistant', icon: MessageSquareText },
 ]
 
 function Brand() {

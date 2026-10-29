@@ -8,18 +8,29 @@
    opacity via rgb(var(--token) / <alpha-value>).
    ============================================================ */
 :root {
-  --c-bg: 247 249 252;        /* app background */
-  --c-surface: 255 255 255;   /* cards / panels */
-  --c-surface-2: 241 245 249; /* subtle raised / table header */
-  --c-border: 226 232 240;    /* hairlines */
-  --c-text: 15 23 42;         /* primary text */
-  --c-text-muted: 100 116 139;/* secondary text */
-  --c-primary: 37 99 235;     /* brand / actions */
+  --c-bg: 247 249 252;
+  /* app background */
+  --c-surface: 255 255 255;
+  /* cards / panels */
+  --c-surface-2: 241 245 249;
+  /* subtle raised / table header */
+  --c-border: 226 232 240;
+  /* hairlines */
+  --c-text: 15 23 42;
+  /* primary text */
+  --c-text-muted: 100 116 139;
+  /* secondary text */
+  --c-primary: 37 99 235;
+  /* brand / actions */
   --c-primary-fg: 255 255 255;
-  --c-ok: 22 163 74;          /* delivered / on-track */
-  --c-warn: 217 119 6;        /* warning / at risk */
-  --c-danger: 220 38 38;      /* critical */
-  --c-info: 8 145 178;        /* in transit / info */
+  --c-ok: 22 163 74;
+  /* delivered / on-track */
+  --c-warn: 217 119 6;
+  /* warning / at risk */
+  --c-danger: 220 38 38;
+  /* critical */
+  --c-info: 8 145 178;
+  /* in transit / info */
 
   color-scheme: light;
 }
@@ -45,9 +56,11 @@
   * {
     @apply border-border;
   }
+
   html {
     scroll-behavior: smooth;
   }
+
   body {
     @apply bg-bg text-content antialiased;
     font-feature-settings: 'cv11', 'ss01';
@@ -59,24 +72,27 @@
   .card {
     @apply bg-surface border border-border rounded-xl shadow-card;
   }
+
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold
-           px-3.5 py-2 transition-colors focus:outline-none focus-visible:ring-2
-           focus-visible:ring-primary/50 disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold px-3.5 py-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:opacity-50 disabled:pointer-events-none;
   }
+
   .btn-primary {
     @apply btn bg-primary text-primary-fg hover:bg-primary/90;
   }
+
   .btn-ghost {
     @apply btn border border-border bg-surface hover:bg-surface-2 text-content;
   }
+
   .btn-danger {
     @apply btn bg-danger text-white hover:bg-danger/90;
   }
+
   .input {
-    @apply w-full rounded-lg bg-surface border border-border px-3 py-2 text-sm text-content
-           placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/40;
+    @apply w-full rounded-lg bg-surface border border-border px-3 py-2 text-sm text-content placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/40;
   }
+
   .label {
     @apply block text-xs font-semibold uppercase tracking-wide text-muted mb-1.5;
   }
@@ -87,15 +103,18 @@
   width: 10px;
   height: 10px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: rgb(var(--c-border));
   border-radius: 8px;
   border: 2px solid transparent;
   background-clip: content-box;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(var(--c-text-muted));
   background-clip: content-box;
@@ -105,15 +124,103 @@
 .react-flow__attribution {
   display: none;
 }
+
 .react-flow__edge-path {
   stroke: rgb(var(--c-text-muted));
 }
+
 .react-flow__controls button {
   background: rgb(var(--c-surface));
   border-bottom: 1px solid rgb(var(--c-border));
   color: rgb(var(--c-text));
   fill: rgb(var(--c-text));
 }
+
 .react-flow__controls button:hover {
   background: rgb(var(--c-surface-2));
+}
+
+
+.rag-markdown {
+  overflow-wrap: anywhere;
+}
+
+.rag-markdown>*+* {
+  margin-top: 0.75rem;
+}
+
+.rag-markdown h1,
+.rag-markdown h2,
+.rag-markdown h3 {
+  font-weight: 700;
+  line-height: 1.4;
+  margin-top: 1rem;
+}
+
+.rag-markdown h1 {
+  font-size: 1.25rem;
+}
+
+.rag-markdown h2 {
+  font-size: 1.125rem;
+}
+
+.rag-markdown h3 {
+  font-size: 1rem;
+}
+
+.rag-markdown p {
+  white-space: pre-wrap;
+}
+
+.rag-markdown ul,
+.rag-markdown ol {
+  padding-left: 1.5rem;
+}
+
+.rag-markdown ul {
+  list-style: disc;
+}
+
+.rag-markdown ol {
+  list-style: decimal;
+}
+
+.rag-markdown li+li {
+  margin-top: 0.25rem;
+}
+
+.rag-markdown table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.rag-markdown th,
+.rag-markdown td {
+  border: 1px solid var(--color-border, #374151);
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.rag-markdown th {
+  font-weight: 600;
+}
+
+.rag-markdown pre {
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background: var(--color-surface, #111827);
+}
+
+.rag-markdown code {
+  overflow-wrap: anywhere;
+}
+
+.rag-markdown a {
+  color: var(--color-primary, #818cf8);
+  text-decoration: underline;
 }

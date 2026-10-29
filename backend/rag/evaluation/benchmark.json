@@ -1,0 +1,35 @@
+[
+  {
+    "question": "How many bags of cement are expected from Vendor ABC?",
+    "relevant_sources": [
+      "test_vendor_update.txt"
+    ]
+  },
+  {
+    "question": "When is Vendor ABC's cement delivery expected?",
+    "relevant_sources": [
+      "test_vendor_update.txt"
+    ]
+  },
+  {
+    "question": "What is the delivery status of SKU-482?",
+    "relevant_sources": [
+      "db:signal",
+      "vendor_update.txt"
+    ]
+  },
+  {
+    "question": "Which activities are on the critical path?",
+    "relevant_sources": [
+      "db:activity",
+      "Ingest_Data_Schedule.xml"
+    ]
+  },
+  {
+    "question": "What is the current status of the tracked material orders?",
+    "relevant_sources": [
+      "db:material",
+      "db:signal"
+    ]
+  }
+]

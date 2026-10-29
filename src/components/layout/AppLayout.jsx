@@ -12,6 +12,7 @@ const PAGE_META = {
   '/alerts': { title: 'Alerts', subtitle: 'Unresolved risk & conflict notifications' },
   '/actions': { title: 'Action Drafts', subtitle: 'AI-drafted responses awaiting approval' },
   '/ingest': { title: 'Ingest Data', subtitle: 'Feed emails, photos & schedules into the pipeline' },
+  '/rag': { title: 'RAG Assistant', subtitle: 'Ask questions grounded in indexed project evidence' },
 }
 
 export default function AppLayout() {

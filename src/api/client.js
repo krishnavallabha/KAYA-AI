@@ -19,6 +19,10 @@ import {
 export const API_BASE =
   import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') || 'http://localhost:8000'
 export const API_V1 = `${API_BASE}/api/v1`
+// Local/demo convenience only. Do not ship shared secrets in a public frontend build.
+const ragHeaders = () => import.meta.env.VITE_RAG_API_TOKEN
+  ? { Authorization: `Bearer ${import.meta.env.VITE_RAG_API_TOKEN}` }
+  : {}
 
 const REQUEST_TIMEOUT_MS = 4000
 
@@ -203,6 +207,25 @@ export const api = {
         message: `Action of type '${a?.action_type || 'EMAIL_VENDOR'}' was successfully executed (Simulated)`,
       }
     }
+  },
+
+  /* ---- RAG assistant ---- */
+  async ragQuery(question, topK = 5) {
+    return request('/rag/query', { method: 'POST', body: { question, top_k: topK }, headers: ragHeaders() })
+  },
+  async ragSources() {
+    return request('/rag/sources', { headers: ragHeaders() })
+  },
+  async ragIngest(file) {
+    const form = new FormData()
+    form.append('file', file)
+    return request('/rag/ingest', { method: 'POST', body: form, isForm: true, headers: ragHeaders() })
+  },
+  async ragIndexProject() {
+    return request('/rag/index-project', { method: 'POST', headers: ragHeaders() })
+  },
+  async ragDeleteSource(filename) {
+    return request(`/rag/sources/${encodeURIComponent(filename)}`, { method: 'DELETE', headers: ragHeaders() })
   },
 
   /* ---- ingest ---- */

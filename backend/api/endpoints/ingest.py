@@ -5,6 +5,16 @@ from backend.database import get_db
 from backend import models
 from backend.ingest import email_parser, vision_parser, schedule_parser
 from backend.intelligence.pipeline import run_intelligence_pipeline
+from backend.rag.service import ingest_text
+
+
+def _index_rag_safely(source: str, text: str, source_type: str) -> dict:
+    """Keep operational ingestion successful even if optional RAG indexing is unavailable."""
+    try:
+        return ingest_text(source, text, source_type)
+    except Exception as exc:
+        # The primary signal/schedule is already committed; surface status for observability.
+        return {"indexed": False, "reason": str(exc)}
 
 
 router = APIRouter()
@@ -26,7 +36,13 @@ def ingest_email(email_text: str = Form(...), material_sku: str = Form(...), db:
     db.add(new_signal)
     db.commit()
     run_intelligence_pipeline(db, material)
-    return {"message": "Email ingested successfully", "parsed_data": parse_res}
+    rag_status = _index_rag_safely(
+        f"db:signal:{new_signal.id}",
+        f"Vendor email update for material SKU {material.sku}. Vendor: {material.vendor_name or 'Unknown'}. "
+        f"Original email: {email_text}\nParsed result: {json.dumps(parse_res, ensure_ascii=False)}",
+        "email_signal",
+    )
+    return {"message": "Email ingested successfully", "parsed_data": parse_res, "rag_indexing": rag_status}
 
 
 @router.post("/vision")
@@ -46,8 +62,14 @@ async def ingest_vision(material_sku: str = Form(...), file: UploadFile = File(.
     )
     db.add(new_signal)
     db.commit()
-    run_intelligence_pipeline(db, material)    
-    return {"message": "Vision photo ingested successfully", "parsed_data": parse_res}
+    run_intelligence_pipeline(db, material)
+    rag_status = _index_rag_safely(
+        f"db:signal:{new_signal.id}",
+        f"Delivery image analysis for material SKU {material.sku}. Vendor: {material.vendor_name or 'Unknown'}. "
+        f"Parsed image result: {json.dumps(parse_res, ensure_ascii=False)}",
+        "vision_signal",
+    )
+    return {"message": "Vision photo ingested successfully", "parsed_data": parse_res, "rag_indexing": rag_status}
 
 
 @router.post("/schedule")
@@ -78,4 +100,20 @@ async def ingest_schedule(file: UploadFile = File(...), db: Session = Depends(ge
         )
         db.add(db_rel)
     db.commit()
-    return {"message": "Schedule ingested successfully", "activities_count": len(activities)}
+    rag_results = []
+    for act in activities:
+        try:
+            rag_results.append(ingest_text(
+                f"db:activity:{act['id']}",
+                f"Schedule activity ID: {act['id']}. Name: {act['name']}. "
+                f"Scheduled start: {act['scheduled_start'] or 'Unknown'}. "
+                f"Scheduled end: {act['scheduled_end'] or 'Unknown'}. "
+                f"Critical path: {act['is_critical_path']}. Status: {act['status']}.",
+                "schedule_activity",
+            ))
+        except Exception as exc:
+            rag_results.append({"indexed": False, "activity_id": act["id"], "reason": str(exc)})
+    return {"message": "Schedule ingested successfully", "activities_count": len(activities),
+            "rag_indexing": {"activities_attempted": len(rag_results),
+                             "activities_indexed": sum(1 for r in rag_results if r.get("chunks_added", 0) > 0),
+                             "results": rag_results}}
